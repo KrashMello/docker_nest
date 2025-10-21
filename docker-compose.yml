@@ -1,0 +1,20 @@
+version: '3'
+services:
+  node_server:
+    image: node:latest
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    command: bash -c "npm install -g pnpm && pnpm install && pnpm db:push && pnpm start:dev"
+    depends_on:
+      - postgres
+    volumes:
+      - ./app:/app:Z
+  postgres: 
+    image: postgres:15
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    ports:
+      - "5432:5432"
